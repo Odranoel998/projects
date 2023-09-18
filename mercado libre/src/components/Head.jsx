@@ -1,17 +1,28 @@
+
 import { BrowserRouter as Router,Routes, Route, Link } from "react-router-dom";
 import { Home,Ofertas,Historial,Supermercado,Moda,Vender,Ayuda,CrearCuenta,Login,MisCompras,Carrito,} from "./Body"
-
+import "bootstrap/dist/css/bootstrap.css";
 
   const padding = {
     padding: 5,
   }
+  const placeholder = '  Buscar productos,marcas y mas ...';
 
 const Header= () =>{
+
+
+const hadleClick=(event) =>{
+    event.preventDefault()
+
+}
 
 return(
     <Router>
         <div className="Head">
-            <div className="Head-Center">
+            <form action={hadleClick}  >
+                <input type="search" values={''} placeholder={placeholder} className="Search"/>
+            </form>
+            <div className="HeadCenter">
             <Link style={padding} to='/Home'>Home</Link>
             <Link style={padding} to='/Ofertas'>Ofertas</Link>
             <Link style={padding} to='/Historial'>Historial</Link>
@@ -20,7 +31,7 @@ return(
             <Link style={padding} to='/Vender'>Vender</Link>
             <Link style={padding} to='/Ayuda'>Ayuda</Link>
             </div>
-            <div className="Head-right">
+            <div className="HeadRight">
             <Link style={padding} to='/CrearCuenta'>Crear Cuenta</Link>
             <Link style={padding} to='/Login'>Ingresar</Link>
             <Link style={padding} to='/Mis compras'>Mis Compras</Link>

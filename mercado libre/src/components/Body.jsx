@@ -1,9 +1,55 @@
+
 import { useState } from "react";
+import {ButtonLeft,ButtonRigth,DivImage,ImgFond} from "./BodyStyles"
+
 
 export const Home=() => {
-    return(
-        <h2>Home</h2>
+    const [num,setNumer]= useState(1)
 
+    const url= `images/img${num}.webp`;
+
+    const NextNumber=()=>{
+        if(num===5){
+            setNumer(1)
+        }else
+        setNumer(num+1)
+    }
+    const PreviousNumber=()=>{
+        if(num===1){
+            setNumer(5)
+        }else
+        setNumer(num-1)
+    }
+
+    const right=' >'
+    const left= ' <'
+
+    return(
+        <div>
+            <DivImage>
+                <ImgFond src={url} alt="publicidad one" ></ImgFond>
+                <ButtonLeft onClick={PreviousNumber}>{left}</ButtonLeft>
+                <ButtonRigth onClick={NextNumber}>{right}</ButtonRigth>
+            </DivImage>
+        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
+        Quasi non odio laboriosam blanditiis repudiandae inventore excepturi rem possimus animi eius perferendis illo,
+         et deleniti alias tempora eum mollitia libero tempore?</p>
+         <br />
+         <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
+        Quasi non odio laboriosam blanditiis repudiandae inventore excepturi rem possimus animi eius perferendis illo,
+         et deleniti alias tempora eum mollitia libero tempore?</p>
+         <br />
+         <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
+        Quasi non odio laboriosam blanditiis repudiandae inventore excepturi rem possimus animi eius perferendis illo,
+         et deleniti alias tempora eum mollitia libero tempore?</p>
+         <br />
+         <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
+        Quasi non odio laboriosam blanditiis repudiandae inventore excepturi rem possimus animi eius perferendis illo,
+         et deleniti alias tempora eum mollitia libero tempore?</p>
+         <br />
+
+        </div>
+        
     )
     }
 
