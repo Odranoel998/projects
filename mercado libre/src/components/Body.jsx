@@ -1,7 +1,5 @@
-
-import { useState } from "react";
-import {ButtonLeft,ButtonRigth,DivImage,ImgFond} from "./BodyStyles"
-
+import { useState } from 'react';
+import {ButtonLeft,ButtonRigth,DivImage,ImgFond} from "../styles/HomeStyles"
 
 export const Home=() => {
     const [num,setNumer]= useState(1)
@@ -31,6 +29,12 @@ export const Home=() => {
                 <ButtonLeft onClick={PreviousNumber}>{left}</ButtonLeft>
                 <ButtonRigth onClick={NextNumber}>{right}</ButtonRigth>
             </DivImage>
+         <div >
+            <h2>Tarjeta de credito</h2>
+            <h2>Tarjeta de debito</h2>
+            <h2>Cuotas sin tarjeta</h2>
+            <h2>Efectivo</h2>
+        </div>
         <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
         Quasi non odio laboriosam blanditiis repudiandae inventore excepturi rem possimus animi eius perferendis illo,
          et deleniti alias tempora eum mollitia libero tempore?</p>
@@ -97,34 +101,8 @@ export const CrearCuenta=()=>{
     )
 }
 
-export const Login=()=>{
 
-    const [username,setUsername]=useState('')
-    const [password,setPassword]=useState('')
-
-    const hadleSumit=(e)=>{
-        e.preventDefault();
-        console.log(username, password);
-    }
-
-    return(
-        <div>
-        <h1>Login</h1>        
-        <form action={hadleSumit}>
-            <label>E-mail,telefono o usuario</label>
-            <br />
-            <input type="text" value={username} onChange={(e)=>setUsername(e.target.value)} />
-            <br />
-            <label>Contraseña</label>
-            <br />
-            <input type="text" value={password} onChange={(e)=>setPassword(e.target.value)} />
-            <br />
-            <button type="submit">Iniciar Sesión</button>
-        </form>
-        </div>
-
-    )
-}
+    
 
 export const MisCompras=()=>{
     return(
@@ -138,6 +116,7 @@ export const Carrito=()=>{
 }
 
 
+
 export default {
     Home,
     Ofertas,
@@ -147,7 +126,6 @@ export default {
     Vender,
     Ayuda,
     CrearCuenta,
-    Login,
     MisCompras,
     Carrito,
 

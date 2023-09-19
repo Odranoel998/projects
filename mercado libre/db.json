@@ -1,5 +1,5 @@
 {
-  "users":[
+  "users": [
     {
       "id": 1,
       "firstname": "John",
@@ -159,8 +159,16 @@
         "catchPhrase": "Quality products for a better world",
         "bs": "Engineering"
       }
+    },
+    {
+      "user": "Leonardo",
+      "pwd": "1234",
+      "id": 6
+    },
+    {
+      "user": "johndoe",
+      "pwd": "jsonplaceholder.org",
+      "id": 7
     }
   ]
-
-
 }

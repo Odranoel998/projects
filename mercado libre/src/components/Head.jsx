@@ -1,7 +1,8 @@
 
 import { BrowserRouter as Router,Routes, Route, Link } from "react-router-dom";
-import { Home,Ofertas,Historial,Supermercado,Moda,Vender,Ayuda,CrearCuenta,Login,MisCompras,Carrito,} from "./Body"
-import "bootstrap/dist/css/bootstrap.css";
+import { Home,Ofertas,Historial,Supermercado,Moda,Vender,Ayuda,CrearCuenta,MisCompras,Carrito,} from "./Body"
+// import {Head,Search,HeadCenter,HeadRight} from "../styles/HeadStyle"
+import { Login } from "./Login";
 
   const padding = {
     padding: 5,

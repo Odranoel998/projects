@@ -2,9 +2,9 @@ import styled from 'styled-components'
 
 export const DivImage= styled.div`
 display:flex;
-
 float: none;
 height: 100%;
+
 `
 export const ImgFond= styled.img`
 object-fit: cover;
