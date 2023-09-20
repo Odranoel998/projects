@@ -1,108 +1,107 @@
-import { useRef, useState, useEffect, useContext } from 'react';
-import AuthContext from "../context/AuthProvider";
+import { useState } from 'react';
 import axios from '../api/axios';
-const LOGIN_URL = "http://localhost:3000/users";
-import "bootstrap/dist/css/bootstrap.css";
+// import "bootstrap/dist/css/bootstrap.css";
+// import Cookies from 'universal-cookie';
+import {FormLog,BoxLeft,BodyLogin} from '../styles/LoginStyle'
 
-
+// const cookies= new Cookies();
+const baseUrl = "http://localhost:3001/users";
 
 export const Login = () => {
-    const { setAuth } = useContext(AuthContext);
-    const userRef = useRef();
-    const errRef = useRef();
+    const [username,setUsername]=useState('');
+    // const [password,setPassword]= useState('');
 
-    const [user, setUser] = useState('');
-    const [pwd, setPwd] = useState('');
-    const [errMsg, setErrMsg] = useState('');
-    const [success, setSuccess] = useState(false);
+    const [state,setState]= useState({
+        user:{
+        username: '',
+        password: ''
+    }});
+    
 
-    useEffect(() => {
-        userRef.current.focus();
-    }, [])
-
-    useEffect(() => {
-        setErrMsg('');
-    }, [user, pwd])
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        try {
-            const response = await axios.post(LOGIN_URL,
-                JSON.stringify({ user, pwd }),
-                {
-                    headers: { 'Content-Type': 'application/json' },
-                    withCredentials: true
-                }
-            );
-            console.log(JSON.stringify(response?.data));
-            //console.log(JSON.stringify(response));
-            const accessToken = response?.data?.accessToken;
-            const roles = response?.data?.roles;
-            setAuth({ user, pwd, roles, accessToken });
-            setUser('');
-            setPwd('');
-            setSuccess(true);
-        } catch (err) {
-            if (!err?.response) {
-                setErrMsg('No Server Response');
-            } else if (err.response?.status === 400) {
-                setErrMsg('Missing Username or Password');
-            } else if (err.response?.status === 401) {
-                setErrMsg('Unauthorized');
-            } else {
-                setErrMsg('Login Failed');
+    const hadleChange= async e=>{
+        await setState({
+            user:{
+                ...state.user,
+                [e.target.name]: e.target.value
             }
-            errRef.current.focus();
-        }
+        })
     }
 
-    return (
-        <>
-            {success ? (
-                <section>
-                    <h1>You are logged in!</h1>
-                    <br />
-                    <p>
-                        <a href="#">Go to Home</a>
-                    </p>
-                </section>
-            ) : (
-                <section>
-                    <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-                    <h1>Sign In</h1>
-                    <form onSubmit={handleSubmit}>
-                        <label htmlFor="username">Username:</label>
-                        <input
-                            type="text"
-                            id="username"
-                            ref={userRef}
-                            autoComplete="off"
-                            onChange={(e) => setUser(e.target.value)}
-                            value={user}
-                            required
-                        />
+    const LoginUser=async()=>{
+        await axios.get(baseUrl)
+        .then(response=>{
+            const user=response.data;
+            setUsername(user)
+            console.log(user)
+            console.log(username)
+        })
+    }
 
-                        <label htmlFor="password">Password:</label>
-                        <input
-                            type="password"
-                            id="password"
-                            onChange={(e) => setPwd(e.target.value)}
-                            value={pwd}
-                            required
-                        />
-                        <button>Sign In</button>
-                    </form>
-                    <p>
-                        Need an Account?<br />
-                        <span className="line">
-                            {/*put router link here*/}
-                            <a href="#">Sign Up</a>
-                        </span>
-                    </p>
-                </section>
-            )}
-        </>
+
+    const IniciarSesion= async()=>{
+        await axios.get(baseUrl,{params: {username: state.user.username,password: state.user.password}})
+        .then(response=>{
+            response.data
+            console.log('Welcome ' + response.data[0].username)
+
+            }).catch(error=>{
+            console.log(error.message)
+            alert(error.message)
+        }); 
+    }
+
+
+
+    if(username!=''){
+        return(
+            <BodyLogin>
+                <BoxLeft>
+                    <h1>Ingresá tu e‑mail, teléfono o usuario de Mercado Libre</h1>
+                    <hr />
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
+                        Rem culpa nostrum explicabo neque? Esse, aliquid aspernatur, 
+                        reprehenderit sit atque voluptatibus possimus eum numquam 
+                        consequatur sequi vero dolorum sint voluptate? Eligendi?</p>
+                </BoxLeft>
+                <FormLog>
+                    <label >Contraseña</label>
+                    <br />
+                    <input type="text"
+                    className='user-control' 
+                    name='password' 
+                    onChange={hadleChange}
+                    />
+                    <br />
+                    <button onClick={IniciarSesion}>Continuar</button>
+                </FormLog>
+            </BodyLogin>
+            )
+    }
+
+
+    return (<BodyLogin>
+                <BoxLeft>
+                    <h1>Ingresá tu e‑mail, teléfono o usuario de Mercado Libre</h1>
+                    <hr />
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
+                        Rem culpa nostrum explicabo neque? Esse, aliquid aspernatur, 
+                        reprehenderit sit atque voluptatibus possimus eum numquam 
+                        consequatur sequi vero dolorum sint voluptate? Eligendi?</p>
+                </BoxLeft>
+                <FormLog>
+                <label >E-mail,telefono o usuario</label>
+                <br />
+                <input type="text"
+                className='user-control' 
+                name='username'
+                 onChange={hadleChange}
+                />
+                <br />
+                <button onClick={LoginUser}>Continuar</button>
+                </FormLog>
+            </BodyLogin>
+        
+
     )
 }
 
