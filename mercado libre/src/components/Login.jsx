@@ -28,13 +28,15 @@ export const Login = () => {
     }
 
     const LoginUser=async()=>{
-        await axios.get(baseUrl)
+        await axios.get(baseUrl,{params: {username: state.user.username}})
         .then(response=>{
             const user=response.data;
-            setUsername(user)
+            setUsername(user[0].username)
             console.log(user)
-            console.log(username)
-        })
+        }).catch(error=>{
+            console.log(error.message)
+            alert('Usuario No valido')
+        });
     }
 
 
@@ -43,7 +45,6 @@ export const Login = () => {
         .then(response=>{
             response.data
             console.log('Welcome ' + response.data[0].username)
-
             }).catch(error=>{
             console.log(error.message)
             alert(error.message)
@@ -56,7 +57,8 @@ export const Login = () => {
         return(
             <BodyLogin>
                 <BoxLeft>
-                    <h1>Ingresá tu e‑mail, teléfono o usuario de Mercado Libre</h1>
+                    <h1>Ingresá tu contraseña de Mercado Libre</h1>
+                    <h2>Bienvenido {state.user.username}</h2>
                     <hr />
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
                         Rem culpa nostrum explicabo neque? Esse, aliquid aspernatur, 
@@ -69,7 +71,9 @@ export const Login = () => {
                     <input type="text"
                     className='user-control' 
                     name='password' 
+                    value={state.user.password}
                     onChange={hadleChange}
+                    
                     />
                     <br />
                     <button onClick={IniciarSesion}>Continuar</button>
@@ -94,7 +98,9 @@ export const Login = () => {
                 <input type="text"
                 className='user-control' 
                 name='username'
-                 onChange={hadleChange}
+                value={state.user.username}
+                onChange={hadleChange}
+                 
                 />
                 <br />
                 <button onClick={LoginUser}>Continuar</button>
