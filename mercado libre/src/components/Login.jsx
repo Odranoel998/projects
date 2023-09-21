@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import axios from '../api/axios';
-// import "bootstrap/dist/css/bootstrap.css";
-// import Cookies from 'universal-cookie';
+
 import {FormLog,BoxLeft,BodyLogin} from '../styles/LoginStyle'
+import Home from '../components/Body'
 
 // const cookies= new Cookies();
 const baseUrl = "http://localhost:3001/users";
 
 export const Login = () => {
     const [username,setUsername]=useState('');
-    // const [password,setPassword]= useState('');
+    const [password,setPassword]= useState('');
 
     const [state,setState]= useState({
         user:{
@@ -43,8 +43,9 @@ export const Login = () => {
     const IniciarSesion= async()=>{
         await axios.get(baseUrl,{params: {username: state.user.username,password: state.user.password}})
         .then(response=>{
-            response.data
-            console.log('Welcome ' + response.data[0].username)
+            const user=response.data;
+            setPassword(user[0].password)
+            console.log('Welcome ' + response.data[0].username+'tu contrase;a es ' + response.data[0].password)
             }).catch(error=>{
             console.log(error.message)
             alert(error.message)
@@ -52,6 +53,11 @@ export const Login = () => {
     }
 
 
+    if(password!=''){
+        return(
+           <Home/> 
+        )
+    }
 
     if(username!=''){
         return(

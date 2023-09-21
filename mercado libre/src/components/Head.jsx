@@ -11,10 +11,44 @@ import { Login } from "./Login";
 
 const Header= () =>{
 
-
-// const hadleClick=(event) =>{
-//     event.preventDefault()
-
+// if(promp){
+//     return(
+//         <Router>
+//             <div className="Head">
+//                     <Search type="search" values={''} placeholder={placeholder}></Search>
+//                 <br />
+//                 <HeadCenter>
+//                 <Link style={padding} to='/Home'>Home</Link>
+//                 <Link style={padding} to='/Ofertas'>Ofertas</Link>
+//                 <Link style={padding} to='/Historial'>Historial</Link>
+//                 <Link style={padding} to='/Supermercado'>Supermercado</Link>
+//                 <Link style={padding} to='/Moda'>Moda</Link>
+//                 <Link style={padding} to='/Vender'>Vender</Link>
+//                 <Link style={padding} to='/Ayuda'>Ayuda</Link>
+//                 </HeadCenter>
+//                 <HeadRight>
+//                 <Link style={padding} to='/CrearCuenta'>Crear Cuenta</Link>
+//                 <Link style={padding} to='/Login'>{promp}</Link>
+//                 <Link style={padding} to='/Mis compras'>Mis Compras</Link>
+//                 <Link style={padding} to='/Carrito'>Carrito</Link>
+//                 </HeadRight>
+    
+//             </div>
+//                 <Routes >
+//                 <Route path="/Home" element={<Home/>}/>
+//                     <Route path="/Ofertas" element={<Ofertas/>}/>
+//                     <Route path="/Historial" element={<Historial/>}/>
+//                     <Route path="/Supermercado" element={<Supermercado/>}/>
+//                     <Route path="/Moda" element={<Moda/>}/>
+//                     <Route path="/Vender" element={<Vender/>}/>
+//                     <Route path="/Ayuda" element={<Ayuda/>}/>
+//                     <Route path="/CrearCuenta" element={<CrearCuenta/>}/>
+//                     <Route path="/Login" element={<Login/>}/>
+//                     <Route path="/MisCompras" element={<MisCompras/>}/>
+//                     <Route path="/Carrito" element={<Carrito/>}/>
+//                 </Routes>
+//             </Router>
+//     )
 // }
 
 return(
