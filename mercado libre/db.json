@@ -1,8 +1,8 @@
 {
   "users": [
-    {"username": "Leonardo", "password": "12345", "dato":"Podes comprar Queso"
+    {"username": "Leonardo", "Phone":"2615788664", "password": "12345", "legalEntity":true
     },
-    {"username": "Agustin", "password": "54321","dato":"Podes comprar Pan"
+    {"username": "Agustin","Phone":"2615788664", "password": "54321","legalEntity":true
     }
   ]
 }

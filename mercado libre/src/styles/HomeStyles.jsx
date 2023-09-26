@@ -40,10 +40,29 @@ border-radius: 35px 0 0 35px ;
 border-color: transparent
 `
 
+export const Targets = styled.div`
+background-color: white;
+font-family: Proxima Nova,-apple-system,Helvetica Neue,helvetica,roboto,arial,sans-serif;
+border-color: transparent;
+border-radius: 5px;
+display: flex;
+justify-content: center;
+width: 80%;
+margin-top: 3%;
+margin-left: 10%;
+padding: 2%;
+`
+
+export const Target = styled.div`
+ width: 100%;
+`
+
 
 export default {
     ButtonLeft,
     ButtonRigth,
     DivImage,
     ImgFond,
+    Targets,
+    Target
 }

@@ -26,12 +26,15 @@ height: 40px;
 `
 
 export const HeadCenter=styled.div`
-
 display: inline;
 width: 500px;
 height: 25px;
 margin-top: 20px;
 margin-left: 16.5%;
+`
+export const ButtonStyle=styled.button`
+background-color: transparent;
+border-color: transparent;
 `
 
 export const HeadRight= styled.div`
@@ -48,4 +51,5 @@ export default{
     Search,
     HeadCenter,
     HeadRight,
+    ButtonStyle,
 }
