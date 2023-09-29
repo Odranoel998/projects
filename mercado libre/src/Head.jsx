@@ -1,10 +1,10 @@
 
 import { Routes, Route } from "react-router-dom";
-import {Ofertas,Historial,Supermercado,Moda,Vender,Ayuda,MisCompras,Carrito,} from "./Body"
-import {Search,HeadCenter,HeadRight,ButtonStyle} from "../styles/HeadStyle"
-import {CrearCuenta} from "./CreateAcount"
-import {Login} from "./Login";
-import {Home} from "./Home"
+import {Ofertas,Historial,Supermercado,Moda,Vender,Ayuda,MisCompras,Carrito,} from "./components/Body"
+import {Search,HeadCenter,HeadRight,ButtonStyle} from "./views/HeadStyle"
+import {CrearCuenta} from "./components/CreateAcount"
+import {Login} from "./components/Login";
+import {Home} from "./components/Home"
 import { useNavigate } from "react-router-dom";
 
 // import {LogoML} from ".../images/logoML";

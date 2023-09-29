@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import axios from 'axios';
-import {FormLog,BoxLeft,BodyLogin} from '../styles/LoginStyle'
-// import Home from '../components/Body'
+import {FormLog,BoxLeft,BodyLogin} from '../views/LoginStyle'
 import { useNavigate } from "react-router-dom";
+
+const baseUrl = 'http://localhost:3001/users'
 
 //------------------------------------------------------------------
 export const Login = () => {
@@ -33,14 +34,11 @@ export const Login = () => {
     const handleLogin=async()=>{
         await axios.get(baseUrl,{params:{username: state.user.username}})
         .then(response=>{
-            response.data;
-            // setUsername(user[0].username)
-            
+            response.data;            
             setStep('password');
 
         }).catch(error=>{
-            console.log(error.message)
-            alert('Usuario No valido')
+            alert(error)
         });
     }
 
@@ -50,6 +48,7 @@ export const Login = () => {
         .then(response=>{
             response.data;
             // setPassword(user[0].password)
+            // setServer(response.data)
             setStep('home'); 
             console.log('Welcome ' + response.data[0].username+'tu contrase;a es ' + response.data[0].password)
             }).catch(error=>{
@@ -87,14 +86,12 @@ export const Login = () => {
                     name='username'
                     value={state.user.username}
                     onChange={hadleChange}
-                     
+                    autoFocus
                     />
                     <br />
                     <button onClick={handleLogin}>Continuar</button>
                     </FormLog>
                 </BodyLogin>
-            
-    
         )
     }    
     const PasswordForm=()=>{
@@ -117,7 +114,7 @@ export const Login = () => {
                     name='password' 
                     value={state.user.password}
                     onChange={hadleChange}
-                    
+                    autoFocus
                     />
                     <br />
                     <button onClick={handlePassword} >Continuar</button>

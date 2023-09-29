@@ -1,8 +1,39 @@
 {
   "users": [
-    {"username": "Leonardo", "Phone":"2615788664", "password": "12345", "legalEntity":true
+    {
+      "id": 1,
+      "username": "Leonardo",
+      "Phone": "2615788664",
+      "password": "12345",
+      "legalEntity": true
     },
-    {"username": "Agustin","Phone":"2615788664", "password": "54321","legalEntity":true
+    {
+      "id": 2,
+      "username": "Agustin",
+      "Phone": "2615788664",
+      "password": "54321",
+      "legalEntity": true
+    },
+    {
+      "id": 3,
+      "username": "Matias",
+      "Phone": "261567890",
+      "password": "antoJ",
+      "legalEntity": true
+    },
+    {
+      "id": 4,
+      "username": "Jesus",
+      "Phone": "01010101",
+      "password": "judas11plata",
+      "legalEntity": true
+    },
+    {
+      "id": 5,
+      "username": "Judas",
+      "Phone": "12121212",
+      "password": "oncedePlata",
+      "legalEntity": true
     }
   ]
 }

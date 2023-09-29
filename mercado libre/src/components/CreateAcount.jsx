@@ -1,273 +1,174 @@
-// /* eslint-disable react-hooks/exhaustive-deps */
-// // import Box from "@mui/material/Box";
-// // import TextField from "@mui/material/TextField";
-// // import { useForm } from "react-hook-form";
-// import { form } from "../styles/CreateAcountStyle";
-// import { useState, useEffect } from "react";
+import { Form } from "../views/CreateAcountStyle";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-// export const CrearCuenta = () => {
-//   const [state, setState] = useState({
-//     isPerson: false,
-//     isUsername: false,
-//     isPassword: false,
-//     isNumber: false,
-//   });
-//   const [userData, setUserData] = useState({
-//     username: "",
-//     password: "",
-//     numberPhone: "",
-//     legalEntity: Boolean,
-//   });
-//   //-------------------------
-//   //OnchangeMethods
-
-//   const onChangePerson = (e) => {
-//     e.preventDefault();
-//     setUserData({
-//       ...userData,
-//       legalEntity: e.target.value === "2" ? true : false,
-//     });
-//     console.log(userData.legalEntity);
-//   };
-
-//   const onSubmitUser=()=>{
-//     console.log(userData)
-//   }
-
-//   useEffect(() => {
-//     console.log("render");
-//     console.log(userData)
-//   }, [onSubmitUser]);
-
-//   //-------------------------------------------------------------
-//   const CardLogin = () => {
-//     // if (userData.legalEntity === Boolean) {
-//     //   return (
-//     //     <Form>
-//     //       <h2>Para crear tu cuenta te pediremos algunos datos</h2>
-//     //       <br />
-//     //       <h3>Solo te tomará unos minutos.</h3>
-//     //       <button value={"2"} onClick={onChangePerson}>
-//     //         Soy persona fisica
-//     //       </button>
-//     //       <br />
-//     //       <button value={"1"} onClick={onChangePerson}>
-//     //         Soy persona juridica
-//     //       </button>
-//     //     </Form>
-//     //   );
-//     // }
-//     if (userData.username == "") {
-//       return (
-//         <Form>
-//           <label>Ingrese su usuario</label>
-//           <br />
-//           <input
-//             type="text"
-//             value={userData.username}
-//             onChange={(e) => {
-//               e.preventDefault();
-//               setUserData({
-//                 ...userData,
-//                 [e.target.name]: e.target.value
-//               });
-//             }}
-//           />
-//           <br />
-//           <button type="submit" onClick={onSubmitUser}>
-//             Agregar
-//           </button>
-//         </Form>
-//       );
-//     }
-//     if (userData.password == "") {
-//       return (
-//         <Form>
-//           <label htmlFor="">Ingrese su Contrasenia</label>
-//           <br />
-//           <input
-//             type="text"
-//             value={userData.password}
-//             onChange={(e) => {
-//               e.preventDefault();
-//               setUserData({
-//                 ...userData,
-//                 [e.target.name]: e.target.value
-//               });
-//             }}
-//           />
-//           <br />
-//           <button type="sumit" onClick={onSubmitUser}>
-//             Agregar
-//           </button>
-//         </Form>
-//       );
-//     }
-//     if (userData.numberPhone == "") {
-//       return (
-//         <Form>
-//           <label htmlFor="">Ingrese su numero de telefono</label>
-//           <br />
-//           <input
-//             type="text"
-//             value={userData.numberPhone}
-//             onChange={(e) => {
-//               e.preventDefault();
-//               setUserData({
-//                 ...userData,
-//                 [e.target.name]: e.target.value
-//               });
-//             }}
-//           />
-//           <br />
-//           <button type="sumit" onClick={onSubmitUser}>
-//             Agregar
-//           </button>
-//         </Form>
-//       );
-//     }
-//   };
-
-//   //-----------------------------------------------------------------------------------------
-//   return (
-//     <CardLogin/>
-//   )
-// };
-
-import { useState } from "react";
-// import { useForm } from "react-hook-form"
-// import { useNavigate } from "react-router-dom";
-// import { Form } from "../styles/CreateAcountStyle";
-//import { set } from "mongoose"
-// import axios from "axios"
-
-// const baseUrl = 'http://localhost:3001/userss'
-// const Form=styled.form`
-// background-color: #fff;
-// border: 1px solid black;
-// border-radius: 5px;
-// padding: 50px;
-// width: 500px;
-// margin-top:5%;
-// margin-left: 5%;
-
-let flag = false;
+const baseUrl = "http://localhost:3001/users";
 
 export const CrearCuenta = () => {
-  // const navigate = useNavigate();
-  // const inputRef = useRef(null);
+  const navigate = useNavigate()
+  const [user, setUser] = useState("");
+  const [passwordd, setPassword] = useState("");
+  const [number, setNumber] = useState("");
   const [userData, setUserData] = useState({
     username: "",
+    Phone: "",
     password: "",
-    numberPhone: "",
-    legalEntity: "",
+    legalEntity: Boolean,
   });
+  const[id,setId]=useState(0)
 
-  //------------------------------------------------------------
+  //   //-------------------------
 
-  // OnChangeMethods
+  const RedirectionHome=() => {
+    navigate("/Home")
+} 
 
-  const onChangePerson = (event) => {
-    setUserData({
-      ...userData,
-      legalEntity: event.target.id === 1 ? false : true,
-    });
-    
-    
+  const addUser = async (e) => {
+    e.preventDefault;
+    const schemaUser = {
+      id:id+1,
+      username: userData.username,
+      Phone: userData.Phone,
+      password: userData.password,
+      legalEntity: userData.legalEntity,
+      // eslint-disable-next-line no-undef
+      // id:3,
+      // content: user,
+      // important: Math.random() > 0.5,
+    };
+    await axios
+      .post(baseUrl, schemaUser)
+      .then((response) => {
+        console.log(response);
+        console.log("Enviado");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+      RedirectionHome()
   };
 
-  const handleChangeUser = (e) => {
+  const onChangePerson = (e) => {
+    e.preventDefault();
     setUserData({
       ...userData,
-      username: e.target.value,
+      legalEntity: e.target.value === "2" ? true : false,
     });
+    console.log(userData.legalEntity);
   };
 
-  const handleChangePassword = (event) => {
+  const onSubmitUser = (e) => {
+    e.preventDefault();
+    // obtenerDato()
     setUserData({
       ...userData,
-      password: event?.target?.value,
+      username: user,
+      password: passwordd,
+      Phone: number,
     });
+    // console.log(userData);
+  };
+  useEffect(() => {
+    axios
+      .get('http://localhost:3001/users')
+      .then(response => {
+        setId(response.data.length)
+      })
+  }, [])
+
+  useEffect(()=>{
     console.log(userData);
-  };
+  },[onSubmitUser])
 
-  // OnSubmitMethods
-
-  const onSubmitUser = () => {
-    return (
-      <form>
-        <label htmlFor="">Ingrese su Contrasenia</label>
-        <br />
-        <input
-          type="text"
-          value={userData.password}
-          onChange={handleChangePassword}
-        />
-        <br />
-        <button type="sumit" onClick={onSubmitPassword}>
-          Agregar
-        </button>
-      </form>
-    );
-  };
-
-  const onSubmitPassword = () => {
-    return (
-      <form action="">
-        <label htmlFor="">Ingrese su numero de telefono</label>
-        <br />
-        <input
-          type="text"
-          value={numberPhone}
-          onChange={(e) => setNumberPhone(e.value)}
-        />
-        <br />
-        <button type="sumit" onClick={controlState}>
-          Agregar
-        </button>
-      </form>
-    );
-  };
-
-  // Navigation
-
-  // const ReturnHome = () => {
-  //   navigate("/Home");
-  // };
-
-  //------------------------------------------------------------
-
+  //   //-------------------------------------------------------------
   const CardLogin = () => {
-    return (flag) ? (
-      <>
-        <h2>Para crear tu cuenta te pediremos algunos datos</h2>
-        <br />
-        <h3>Solo te tomará unos minutos.</h3>
-        <button id={1} onClick={onChangePerson}>
-          Soy persona fisica
-        </button>
-        <br />
-        <button id={2} onClick={onChangePerson}>
-          Soy persona juridica
-        </button>
-      </>
-    ) :
-   (
-      <>
-        <label>Ingrese su usuario</label>
-        <input
-          type="text"
-          value={userData.username}
-          onChange={(event) => handleChangeUser(event)}
-          autoFocus
-        />
-        <button type="submit" onClick={onSubmitUser}>
-          Agregar
-        </button>
-      </>
-    )
-
+    //Persona Juridica
+    if (userData.legalEntity === Boolean) {
+      return (
+        <Form>
+          <h2>Para crear tu cuenta te pediremos algunos datos</h2>
+          <br />
+          <h3>Solo te tomará unos minutos.</h3>
+          <button value={"2"} onClick={onChangePerson}>
+            Soy persona fisica
+          </button>
+          <br />
+          <button value={"1"} onClick={onChangePerson}>
+            Soy persona juridica
+          </button>
+        </Form>
+      );
+    }
+    //Username
+    if (userData.username == "") {
+      return (
+        <Form>
+          <label>Ingrese su usuario</label>
+          <br />
+          <input
+            type="text"
+            value={user}
+            onChange={(e) => setUser(e.target.value)}
+            autoFocus
+          />
+          <br />
+          <button type="submit" onClick={onSubmitUser}>
+            Agregar
+          </button>
+        </Form>
+      );
+    }
+    //Password
+    if (userData.password == "") {
+      return (
+        <Form>
+          <label htmlFor="">Ingrese su Contrasenia</label>
+          <br />
+          <input
+            type="text"
+            value={passwordd}
+            onChange={(e) => setPassword(e.target.value)}
+            autoFocus
+          />
+          <br />
+          <button type="sumit" onClick={onSubmitUser}>
+            Agregar
+          </button>
+        </Form>
+      );
+    }
+    //NumberPhone
+    if (userData.Phone == "") {
+      return (
+        <Form>
+          <label htmlFor="">Ingrese su numero de telefono</label>
+          <br />
+          <input
+            type="text"
+            value={number}
+            onChange={(e) => setNumber(e.target.value)}
+            autoFocus
+          />
+          <br />
+          <button type="sumit" onClick={onSubmitUser}>
+            Agregar
+          </button>
+        </Form>
+      );
+    } else {
+      return (
+        <>
+          <p>Muchas gracias verifique su email</p>
+          <button onClick={addUser}>Inicio</button>
+        </>
+      );
+    }
   };
-
+  //-----------------------------------------------------------------------------------------
   return <CardLogin />;
+};
+
+export default {
+  CrearCuenta,
 };

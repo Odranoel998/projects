@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import {ButtonLeft,ButtonRigth,DivImage,ImgFond,Targets,Target} from "../styles/HomeStyles"
+import {ButtonLeft,ButtonRigth,DivImage,ImgFond,Targets,Target} from "../views/HomeStyles"
 import { Link } from 'react-router-dom'
 
 export const Home=() => {
