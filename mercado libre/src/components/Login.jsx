@@ -31,32 +31,44 @@ export const Login = () => {
             }
         });
     }
-
+    
     const handleLogin = async () => {
-        await axios.get(baseUrl, { params: { username: state.user.username } })
-            .then(response => {
-                response.data;
-                setStep('password');
-
-            }).catch(error => {
-                alert(error)
-            });
-    }
-
-
+        try {
+          const response = await axios.get(baseUrl, { params: { username: state.user.username } });
+          const user = response.data.find((userData) => userData.username === state.user.username);
+          
+          if (user) {
+            console.log(user);
+            console.log(response.data);
+            console.log(state.user.username);
+            setStep('password');
+          } else if(user!=undefined){
+            console.log(user)
+            console.log('Usuario no encontrado');
+            alert('Usuario no encontrado') // Puedes mostrar un mensaje de error si el usuario no se encuentra
+          }
+        } catch (error) {
+          console.error(error);
+          alert('Hubo un error al realizar la solicitud.');
+        }
+      };
+      
     const handlePassword = async () => {
-        await axios.get(baseUrl, { params: { username: state.user.username, password: state.user.password } })
-            .then(response => {
-                response.data;
-                if (response.data) {
-                    setStep('home');
-                    console.log('Welcome ' + response.data[0].username + 'tu contrase;a es ' + response.data[0].password)
+       const response= await axios.get(baseUrl, { params: { password: state.user.password } })
+            try{
+                const password= response.data.find((passwordData)=>passwordData.password===state.user.password)
+                if(password){
+                    console.log(password);
+                    console.log(response.data);
+                    console.log(state.user.password)
+                    RedirectionHome()
+                }else {
+                    alert('Contrase;a incorrecta')
                 }
-
-            }).catch(error => {
+            }catch(error) {
                 console.log(error.message)
                 alert(error.message)
-            });
+            }
     }
 
     const RedirectionHome = () => {
@@ -82,6 +94,7 @@ export const Login = () => {
                     value={state.user.username}
                     onChange={hadleChange}
                     autoFocus
+
                 />
                 <br />
                 <button onClick={handleLogin}>Continuar</button>
