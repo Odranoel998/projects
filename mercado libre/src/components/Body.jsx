@@ -29,24 +29,6 @@ export const Ayuda=()=>{
         <h2>404 error</h2>
     )
 }
-export const CrearCuenta=()=>{
-    
-    return(
-        <div>
-            <h2>Para crear tu cuenta te pediremos algunos datos</h2>
-            <h3>Solo te tomará unos minutos.</h3>
-            <button>Soy persona fisica</button>
-            <br />
-            <button>Soy persona juridica</button>
-        </div>
-
-
-    )
-}
-
-
-    
-
 export const MisCompras=()=>{
     return(
         <h2>404 error</h2>
@@ -57,9 +39,6 @@ export const Carrito=()=>{
         <h2>404 error</h2>
     )
 }
-
-
-
 export default {
 
     Ofertas,
@@ -68,7 +47,6 @@ export default {
     Moda,
     Vender,
     Ayuda,
-    CrearCuenta,
     MisCompras,
     Carrito,
 

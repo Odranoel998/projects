@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const baseUrl = "http://localhost:3001/users";
+
+const baseUrl = 'http://localhost:3010/api/users';
 
 export const CrearCuenta = () => {
   const navigate = useNavigate()
@@ -16,7 +17,6 @@ export const CrearCuenta = () => {
     password: "",
     legalEntity: Boolean,
   });
-  const[id,setId]=useState(0)
 
   //   //-------------------------
 
@@ -27,7 +27,6 @@ export const CrearCuenta = () => {
   const addUser = async (e) => {
     e.preventDefault;
     const schemaUser = {
-      id:id+1,
       username: userData.username,
       Phone: userData.Phone,
       password: userData.password,
@@ -69,13 +68,6 @@ export const CrearCuenta = () => {
     });
     // console.log(userData);
   };
-  useEffect(() => {
-    axios
-      .get('http://localhost:3001/users')
-      .then(response => {
-        setId(response.data.length)
-      })
-  }, [])
 
   useEffect(()=>{
     console.log(userData);
