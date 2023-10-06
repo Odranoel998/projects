@@ -6,11 +6,10 @@ import express from 'express'
 import cors from 'cors'
 import mongoose from 'mongoose'
 import usersRouter from './controllers/users.js';
-
-
+import userLogin from './controllers/login.js'
+// import productRouter from "./controllers/products.js"
 
 //------------------------------------------------------------------------------
-
 const app = express()
 const requestLogger = (request, response, next) => {
     console.log('Method:', request.method)
@@ -19,6 +18,7 @@ const requestLogger = (request, response, next) => {
     console.log('---')
     next()
   }
+
 mongoose.set('strictQuery',false)
 // eslint-disable-next-line no-undef
 mongoose.connect(process.env.MONGODB_URI)
@@ -29,19 +29,18 @@ mongoose.connect(process.env.MONGODB_URI)
     console.log('error connecting to MongoDB:', error.message)
   })
 
+  
+
 //----------------------------------------------------------------------------------------------------------------
 app.use(express.static('dist'))
 app.use(cors())
 app.use(express.json())
-app.use("/api/users", usersRouter)
 app.use(requestLogger)
+app.use("/api/users", usersRouter)
+app.use("/api/login",userLogin)
+// app.use("/api/product",productRouter)
 
 
-//------------------------------------------------------------------------------
-
-//------------------------------------------------------------------------------
-
-//--------------------------------------------------------------------------------------------------------
 
 
 // eslint-disable-next-line no-undef

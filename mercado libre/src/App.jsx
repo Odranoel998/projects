@@ -1,18 +1,20 @@
 
 import { Routes, Route } from "react-router-dom";
 import {Ofertas,Historial,Supermercado,Moda,Vender,Ayuda,MisCompras,Carrito,} from "./components/Body"
-import {Search,HeadCenter,HeadRight,ButtonStyle} from "./views/HeadStyle"
+import {HeadCenter,HeadRight,ButtonStyle} from "./views/HeadStyle"
+import{SearchrHead} from "./components/Search"
 import {CrearCuenta} from "./components/CreateAcount"
 import {Login} from "./components/Login";
 import {Home} from "./components/Home"
 import { useNavigate } from "react-router-dom";
+import { Result } from "./components/searchResult";
 
 // import {LogoML} from ".../images/logoML";
 
 //   const padding = {
 //     padding: 5,
 //   }
-  const placeholder = '  Buscar productos,marcas y mas ...';
+
 
 //   const LogoML = "https://img2.freepng.es/20180630/tpw/kisspng-e-marketplace-free-market-salesperson-e-commerce-5b3806a3328a15.227853431530398371207.jpg"
 const App= () =>{
@@ -58,7 +60,7 @@ return(
     <>
         <div className="Head">
             {/* <img src={LogoML} className="image"  /> */}
-                <Search type="search" values={''} placeholder={placeholder}></Search>
+                <SearchrHead/>
             <br />
             <HeadCenter>
             <ButtonStyle onClick={navigateToHome}>Home</ButtonStyle>
@@ -78,6 +80,7 @@ return(
 
         </div>
             <Routes >
+                <Route path="/search" element={<Result/>}/>
                 <Route path="/Home" element={<Home/>}/>
                 <Route path="/Ofertas" element={<Ofertas/>}/>
                 <Route path="/Historial" element={<Historial/>}/>

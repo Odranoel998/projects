@@ -2,7 +2,7 @@ console.log('Init mongo');
 import mongoose from 'mongoose'
 import uniqueValidator from 'mongoose-unique-validator'
 
-const userSchema = new mongoose.Schema({
+const userSchema = mongoose.Schema({
   username:String,
   password: String,
   numerPhone: Number,

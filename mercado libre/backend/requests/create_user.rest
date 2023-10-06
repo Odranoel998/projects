@@ -1,0 +1,12 @@
+POST http://localhost:3010/api/users
+
+content-Type:application/json
+
+
+{
+    "username":"Leonardo",
+    "password":"12345",
+    "numerPhone": 2615666666,
+    "legalEntity": true
+    
+}

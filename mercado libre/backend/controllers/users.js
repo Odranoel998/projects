@@ -1,10 +1,10 @@
 import bcrypt from "bcrypt";
 import User from'../models/usersModels.js'
 import { Router } from "express";
-//import express from "express";
+
 
 export const usersRouter = Router();
-//usersRouter.use(express.json());
+
 
 usersRouter.post("/", async (request, response) => {
   try {
