@@ -7,20 +7,20 @@ import {CrearCuenta} from "./components/CreateAcount"
 import {Login} from "./components/Login";
 import {Home} from "./components/Home"
 import { useNavigate } from "react-router-dom";
-import { Result } from "./components/searchResult";
-
-// import {LogoML} from ".../images/logoML";
-
-//   const padding = {
-//     padding: 5,
-//   }
+import { Result } from "./components/Search";
+import { useState } from "react";
+//import { useEffect } from "react";
 
 
-//   const LogoML = "https://img2.freepng.es/20180630/tpw/kisspng-e-marketplace-free-market-salesperson-e-commerce-5b3806a3328a15.227853431530398371207.jpg"
+
+
+
 const App= () =>{
 
+    const [searchValue, setSearchValue] = useState("");
 const navigate = useNavigate();
 
+//---------------------------------------------------------------------------------------
 const navigateToHome=() =>{
     navigate('/Home')
 };
@@ -54,13 +54,16 @@ const navigateToMisCompras=() =>{
 const navigateToCarrito=() =>{
     navigate('/Carrito')
 };
-
-
+//--------------------------------------------------------------------------------------
+const handleChange = (e) => {
+    const newValue = e.target.value;
+    setSearchValue(newValue);
+}
+//---------------------------------------------------------------------------------------
 return(
     <>
         <div className="Head">
-            {/* <img src={LogoML} className="image"  /> */}
-                <SearchrHead/>
+            <SearchrHead value={searchValue} handleChange={handleChange} />
             <br />
             <HeadCenter>
             <ButtonStyle onClick={navigateToHome}>Home</ButtonStyle>
@@ -80,8 +83,8 @@ return(
 
         </div>
             <Routes >
-                <Route path="/search" element={<Result/>}/>
-                <Route path="/Home" element={<Home/>}/>
+                <Route path="/search/:product" element={<Result prompt={searchValue} />} />
+                <Route path="/" element={<Home/>}/>
                 <Route path="/Ofertas" element={<Ofertas/>}/>
                 <Route path="/Historial" element={<Historial/>}/>
                 <Route path="/Supermercado" element={<Supermercado/>}/>
