@@ -1,6 +1,6 @@
 //import { useState } from "react"
 import { Search } from "../views/HeadStyle"
-import { useNavigate,  } from "react-router-dom";
+import { useNavigate, } from "react-router-dom";
 
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -8,83 +8,82 @@ import { useEffect, useState } from "react";
 // eslint-disable-next-line react/prop-types
 export const SearchrHead = ({ value, handleChange }) => {
 
-    const placeholder = '  Buscar productos,marcas y mas ...';
-    const navigate = useNavigate()
-    const pokemon= "https://pokeapi.co/api/v2/pokemon"
-//--------------------------------------------------------------------------------
-    const handleKeyPress = async (e) => {
-        if (e.key === "Enter") {
-            //console.log("Enter presionado. Valor actual del input:", value);
-            try{
-            const response=await axios.get(pokemon)
-            const data=response.data.results.find((poke)=>poke.name===value)
-            console.log('Datos de ', data)
-            if (data) {
-                // Navega a la ruta "/search/:product" con el nombre del Pokémon como parámetro
-                navigate(`/search/${data.name}`);
-              } else {
-                alert("Pokemon no registrado");
-              }
-            }catch (error){
-                alert("Pokemon no registrado")
-                console.log(error)
-            }
-        }
-      };
+  const placeholder = '  Buscar productos,marcas y mas ...';
+  const navigate = useNavigate()
+  //--------------------------------------------------------------------------------
+  const handleKeyPress = (e) => {
+       if (e.key === "Enter" && value!="") {
+        navigate(`/search/${value}`);
+       }
+  };
+  //-------------------------------------------------------------------------
 
-//-------------------------------------------------------------------------
-
-    return (
-        <div>
-        <Search type="search" 
-        values={value} 
-        placeholder={placeholder} 
-        onChange={handleChange} 
+  return (
+    <div>
+      <Search type="search"
+        values={value}
+        placeholder={placeholder}
+        onChange={handleChange}
         onKeyDown={handleKeyPress} >
-        </Search>
-        </div>
-    )
+      </Search>
+    </div>
+  )
 
 }
 //Componente Aparte---------------------------------------------------------------------------------------------------------
 // eslint-disable-next-line react/prop-types
 export const Result = ({ prompt }) => {
-    const [pokemonData, setPokemonData] = useState(null);
-  
-    useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${prompt}`);
-          setPokemonData(response.data);
-        } catch (error) {
-          console.log(error);
-        }
-      };
-  
-      if (prompt) {
-        fetchData();
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`https://api.mercadolibre.com/sites/MLA/search?q=${prompt}&limit=4`);
+        const producto = response.data.results.map((result) => ({
+          id: result.id,
+          title: result.title,
+          thumbnail: result.thumbnail,
+          price: result.price,
+          currency_id: result.currency_id,
+          seller_address: {
+            city: {
+              name: result.seller_address.city.name
+            }
+          }
+        }));
+        setData(producto);
+      } catch (error) {
+        console.log(error);
       }
-    }, [prompt]);
-  
-    return (
-      <div>
-        <h1>Tu pokemon es: {prompt}</h1>
-  
-        {pokemonData && (
-          <div>
-            <p>Nombre: {pokemonData.name}</p>
-            <p>Altura: {pokemonData.height}</p>
-            {/* Agrega más información sobre el Pokemon aquí según tus necesidades */}
-          </div>
-        )}
-      </div>
-    );
-  };
+    };
+//--------------------------------------------------------
+    if (prompt) {
+      fetchData();
+    }
+  }, [prompt]);
+//--------------------------------------------------------
+  return (
+    <div>
+      <h1>Tus resultados de búsqueda para {prompt} son:</h1>
+      <section>
+        <article>
+          <ul>
+            {data.map((item) => (
+              <li key={item.id}>
+                {item.title}
+              </li>
+            ))}
+          </ul>
+        </article>
+      </section>
+    </div>
+  );
+};
 
 
 
 
 export default {
-    SearchrHead,
-    Result
+  SearchrHead,
+  Result
 }
