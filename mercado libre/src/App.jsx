@@ -8,8 +8,9 @@ import {Login} from "./components/Login";
 import {Home} from "./components/Home"
 import { useNavigate } from "react-router-dom";
 import { Result } from "./components/Search";
-import { useState } from "react";
-//import { useEffect } from "react";
+import {useState } from "react";
+import {ResultDescription} from "./components/Search"
+
 
 
 
@@ -17,9 +18,20 @@ import { useState } from "react";
 
 const App= () =>{
 
-    const [searchValue, setSearchValue] = useState("");
+const [searchValue, setSearchValue] = useState("");
+// eslint-disable-next-line no-unused-vars
+const [idProduct,setID]= useState('')
 const navigate = useNavigate();
 
+//--------------------------------------------------------------------------------------
+const handleChange = (e) => {
+    const newValue = e.target.value;
+    setSearchValue(newValue);
+}
+const handleChangeResults=(e)=>{
+    const newValue=e.target.value
+    setID(newValue)
+}
 //---------------------------------------------------------------------------------------
 const navigateToHome=() =>{
     navigate('/Home')
@@ -54,11 +66,6 @@ const navigateToMisCompras=() =>{
 const navigateToCarrito=() =>{
     navigate('/Carrito')
 };
-//--------------------------------------------------------------------------------------
-const handleChange = (e) => {
-    const newValue = e.target.value;
-    setSearchValue(newValue);
-}
 //---------------------------------------------------------------------------------------
 return(
     <>
@@ -83,7 +90,8 @@ return(
 
         </div>
             <Routes >
-                <Route path="/search/:product" element={<Result prompt={searchValue} />} />
+                <Route path="/search/:product" element={<Result prompt={searchValue} value={idProduct}handleChangeResults={handleChangeResults} />} />
+                <Route path="/search/:product/:id" element={<ResultDescription prompt={idProduct}/>}/>
                 <Route path="/" element={<Home/>}/>
                 <Route path="/Ofertas" element={<Ofertas/>}/>
                 <Route path="/Historial" element={<Historial/>}/>
