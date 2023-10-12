@@ -5,6 +5,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 
+
 // eslint-disable-next-line react/prop-types
 export const SearchrHead = ({ value, handleChange }) => {
 
@@ -33,7 +34,7 @@ export const SearchrHead = ({ value, handleChange }) => {
 //Componente de result ---------------------------------------------------------------------------------------------------------
 
 // eslint-disable-next-line react/prop-types
-export const Result = ({ prompt, value, handleChangeResults }) => {
+export const Result = ({ prompt, value, setID }) => {
   const [data, setData] = useState([]);
   const navigate = useNavigate()
 
@@ -60,24 +61,25 @@ export const Result = ({ prompt, value, handleChangeResults }) => {
       }
     };
     //--------------------------------------------------------
-    if (prompt) {
+    
+    if (prompt ) {
       fetchData();
     }
   }, [prompt]);
+
+
 
   const selectDescription = (e) => {
     e.preventDefault()
     const respuesta = e.currentTarget.getAttribute('value');
     value = respuesta
-    console.log('producto descripcion su id es: ', respuesta)
-    console.log('valor de value es de : ', value)
-    handleChangeResults
+    setID(value)
     navigate(`/search/:product/:${value}`)
 
   }
   //--------------------------------------------------------
   return (
-    <div>
+    <div >
       <h1>Tus resultados de búsqueda para {prompt} son:</h1>
       <section >
         <article  >
@@ -103,19 +105,50 @@ export const Result = ({ prompt, value, handleChangeResults }) => {
 //--------------------------------------------------------------------------------------------
 
 // eslint-disable-next-line react/prop-types
-export const ResultDescription = ({ prompt }) => {
+export const ResultDescription = ({ prompt, value }) => {
+
+  const [data, setData] = useState('');
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`https://api.mercadolibre.com/sites/MLA/search?q=${value}&limit=4`);
+        const productos = response.data.results;
+        const producto = productos.find((result) => result.id === prompt);
+  
+        if (producto) {
+          setData({
+            id: producto.id,
+            title: producto.title,
+            thumbnail: producto.thumbnail,
+            price: producto.price,
+          });
+        } else {
+          alert("Producto no encontrado");
+        }
+        console.log('ResultDescription: ', producto);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    //--------------------------------------------------------
+    if (prompt) {
+      fetchData();
+    }
+  }, [prompt]);
+
   return (
     <div>
       <p>El id del producto:{prompt}</p>
+      <img src={data.thumbnail} alt={data.title} />
+      <p>{data.price}</p>
+      <h2>Descripcion del producto</h2>
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         Laboriosam pariatur harum magnam itaque consectetur id perferendis aperiam, amet et
         doloribus obcaecati nulla alias atque ad tenetur, commodi laborum, dicta qui?</p>
     </div>
   )
 }
-
-
-
 
 export default {
   SearchrHead,

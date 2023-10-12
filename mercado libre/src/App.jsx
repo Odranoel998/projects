@@ -28,10 +28,7 @@ const handleChange = (e) => {
     const newValue = e.target.value;
     setSearchValue(newValue);
 }
-const handleChangeResults=(e)=>{
-    const newValue=e.target.value
-    setID(newValue)
-}
+
 //---------------------------------------------------------------------------------------
 const navigateToHome=() =>{
     navigate('/Home')
@@ -90,8 +87,8 @@ return(
 
         </div>
             <Routes >
-                <Route path="/search/:product" element={<Result prompt={searchValue} value={idProduct}handleChangeResults={handleChangeResults} />} />
-                <Route path="/search/:product/:id" element={<ResultDescription prompt={idProduct}/>}/>
+                <Route path="/search/:product" element={<Result prompt={searchValue} value={idProduct} setID={setID} />} />
+                <Route path="/search/:product/:id" element={<ResultDescription prompt={idProduct} value={searchValue} />}/>
                 <Route path="/" element={<Home/>}/>
                 <Route path="/Ofertas" element={<Ofertas/>}/>
                 <Route path="/Historial" element={<Historial/>}/>
