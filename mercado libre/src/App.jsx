@@ -1,4 +1,3 @@
-
 import { Routes, Route } from "react-router-dom";
 import {Ofertas,Historial,Supermercado,Moda,Vender,Ayuda,MisCompras,Carrito,} from "./components/Body"
 import {HeadCenter,HeadRight,ButtonStyle} from "./views/HeadStyle"
@@ -19,7 +18,7 @@ import {ResultDescription} from "./components/Search"
 const App= () =>{
 
 const [searchValue, setSearchValue] = useState("");
-// eslint-disable-next-line no-unused-vars
+const [enter,setEnter]= useState(false)
 const [idProduct,setID]= useState('')
 const navigate = useNavigate();
 
@@ -67,7 +66,7 @@ const navigateToCarrito=() =>{
 return(
     <>
         <div className="Head">
-            <SearchrHead value={searchValue} handleChange={handleChange} />
+            <SearchrHead value={searchValue}  handleChange={handleChange} setEnter={setEnter}/>
             <br />
             <HeadCenter>
             <ButtonStyle onClick={navigateToHome}>Home</ButtonStyle>
@@ -87,7 +86,7 @@ return(
 
         </div>
             <Routes >
-                <Route path="/search/:product" element={<Result prompt={searchValue} value={idProduct} setID={setID} />} />
+                <Route path="/search/:product" element={<Result  enter={enter} setEnter={setEnter} prompt={searchValue} value={idProduct} setID={setID} />} />
                 <Route path="/search/:product/:id" element={<ResultDescription prompt={idProduct} value={searchValue} />}/>
                 <Route path="/" element={<Home/>}/>
                 <Route path="/Ofertas" element={<Ofertas/>}/>

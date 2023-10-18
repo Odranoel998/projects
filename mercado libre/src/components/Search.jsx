@@ -1,4 +1,3 @@
-//import { useState } from "react"
 import { Search } from "../views/HeadStyle"
 import { useNavigate, } from "react-router-dom";
 import axios from "axios";
@@ -7,15 +6,22 @@ import { useEffect, useState } from "react";
 
 
 // eslint-disable-next-line react/prop-types
-export const SearchrHead = ({ value, handleChange }) => {
+export const SearchrHead = ({ value, handleChange, setEnter}) => {
 
   const placeholder = '  Buscar productos,marcas y mas ...';
   const navigate = useNavigate()
   //--------------------------------------------------------------------------------
+  
+  
+  
   const handleKeyPress = (e) => {
     if (e.key === "Enter" && value != "") {
+      e.preventDefault()
       navigate(`/search/${value}`);
+      setEnter(true);
+      
     }
+
   };
   //-------------------------------------------------------------------------
 
@@ -34,12 +40,13 @@ export const SearchrHead = ({ value, handleChange }) => {
 //Componente de result ---------------------------------------------------------------------------------------------------------
 
 // eslint-disable-next-line react/prop-types
-export const Result = ({ prompt, value, setID }) => {
+export const Result = ({ prompt, value, setID, setEnter, enter}) => {
   const [data, setData] = useState([]);
   const navigate = useNavigate()
 
 
-  useEffect(() => {
+
+    
     const fetchData = async () => {
       try {
         const response = await axios.get(`https://api.mercadolibre.com/sites/MLA/search?q=${prompt}&limit=4`);
@@ -61,11 +68,15 @@ export const Result = ({ prompt, value, setID }) => {
       }
     };
     //--------------------------------------------------------
+
+
+  if (prompt && enter==true ) {
+    fetchData();
+    setEnter(false)
     
-    if (prompt ) {
-      fetchData();
-    }
-  }, [prompt]);
+
+
+  }
 
 
 
@@ -77,10 +88,10 @@ export const Result = ({ prompt, value, setID }) => {
     navigate(`/search/:product/:${value}`)
 
   }
+
   //--------------------------------------------------------
   return (
-    <div >
-      <h1>Tus resultados de búsqueda para {prompt} son:</h1>
+    <div>
       <section >
         <article  >
           <ul>
