@@ -30,7 +30,7 @@ margin-left: 10%;
 margin-top: 3%;
 border-radius: 8px;
 width: 800px;
-height: 500px; 
+min-height:: 500px; 
 display: inline-block;
 box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 overflow: hidden; 
@@ -93,22 +93,29 @@ width: 300px;
 height: 500px; 
 display: inline-block;
 box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-overflow: hidden; 
+overflow: hidden;
+    .divImg{
+        margin:5px;
+        //border: 2px solid red;
+        windth:50%;
+        img {
+            border-radius: 8px 8px 8px 8px;
+            width: 100%;
+            hedth: 100%;
+            aspect-ratio: 3/2;
+            object-fit: contain;
+        }
+    }
     div{
-        margin-left: 5px;
-    }
-    h3{
-        margin-left: 20px;
-    }
-    img {
-        border-radius: 8px 8px 8px 8px;
-        width: 100%;
-        hedth: 100%;
-    }
-    p{
-        font-weight: bold;
-        font-size: 10px;
-        padding: 20px;
+            margin-left: 5px;
+        h3{
+            margin-left: 20px;
+        }
+        p{
+            font-weight: bold;
+            font-size: 10px;
+            padding: 20px;
+        }
     }
     span{
         margin-left: 25px;
