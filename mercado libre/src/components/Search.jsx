@@ -88,7 +88,9 @@ export const Result = ({ prompt, value, setID, setEnter, enter }) => {
           <ul>
             {data.map((item) => (
               <Tarjet key={item.id} value={item.id} onClick={selectDescription}>
-                <img src={item.thumbnail} alt={item.title} srcSet="" />
+                <div className="divImg">
+                  <img src={item.thumbnail} alt={item.title} srcSet="" />
+                </div>
                 <div>
                   <hr></hr>
                   <h3>${item.price}</h3>
@@ -114,7 +116,7 @@ export const ResultDescription = ({ prompt, value }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`https://api.mercadolibre.com/sites/MLA/search?q=${value}&limit=4`);
+        const response = await axios.get(`https://api.mercadolibre.com/sites/MLA/search?q=${value}&limit=12`);
         const responseDescription = await axios.get(`https://api.mercadolibre.com/items/${prompt}/description`)
         const fetchDescription = responseDescription.data.plain_text
         const productos = response.data.results;
@@ -129,7 +131,7 @@ export const ResultDescription = ({ prompt, value }) => {
           });
 
         } else {
-          //alert("Producto no encontrado");
+          alert("Producto no encontrado");
         }
       } catch (error) {
         console.log(error);
