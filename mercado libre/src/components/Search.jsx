@@ -1,4 +1,4 @@
-import { Search, ResultStyle, Tarjet, DescripcionStyle } from "../views/HeadStyle"
+import { Search, ResultStyle, Tarjet, SelectDescription } from "../views/HeadStyle"
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect } from "react";
@@ -46,13 +46,13 @@ export const Result = ({ prompt, value, setID, setEnter, enter }) => {
 
   function formatNumberWithCommas(number) {
     const numStr = number.toString();
-  
+
     const parts = numStr.split('.');
     let integerPart = parts[0];
     const decimalPart = parts[1] || '';
-  
+
     integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-  
+
     if (decimalPart) {
       return `${integerPart},${decimalPart}`;
     } else {
@@ -60,7 +60,7 @@ export const Result = ({ prompt, value, setID, setEnter, enter }) => {
     }
   }
 
-  
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -130,6 +130,21 @@ export const Result = ({ prompt, value, setID, setEnter, enter }) => {
 export const ResultDescription = ({ prompt, value }) => {
   const [data, setData] = useState('');
 
+  function formatNumberWithCommas(number) {
+    const numStr = number.toString();
+
+    const parts = numStr.split('.');
+    let integerPart = parts[0];
+    const decimalPart = parts[1] || '';
+
+    integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+    if (decimalPart) {
+      return `${integerPart},${decimalPart}`;
+    } else {
+      return integerPart;
+    }
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -144,8 +159,9 @@ export const ResultDescription = ({ prompt, value }) => {
             id: producto.id,
             title: producto.title,
             thumbnail: producto.thumbnail,
-            price: producto.price,
-            descripcion: fetchDescription
+            price: formatNumberWithCommas(producto.price),
+            redondeo:formatNumberWithCommas(((producto.price)/12).toFixed(2)),
+            descripcion: (fetchDescription),
           });
 
         } else {
@@ -165,20 +181,51 @@ export const ResultDescription = ({ prompt, value }) => {
   }, [prompt]);
 
   return (
-    <DescripcionStyle>
-      <div className="divTop">
+    <SelectDescription >
+      <div className="divThree">
         <div className="divImg">
           <img src={data.thumbnail} alt={data.title} />
         </div>
-        <div>
+
+        <div className="divInfo">
+          <p>Nuevo| +500 vendido</p>
           <h2>{data.title}</h2>
-          <h3>${data.price}</h3>
-          <button>Comprar</button>
+          <p>Mas Vendido</p>
+          <h3>$ {data.price} </h3>
+          <h4>en 12x $ {(data.redondeo)}</h4>
+        </div>
+
+        <div className="divTarget">
+          <div className="divButton">
+            <p className="pText">Llega gratis el viernes
+              <p className="pBlue1">Mas formas de entrega</p>
+            </p>
+            <p className="pText">Mas formas de entrega</p>
+            <p className="pTextBlack">Stock Disponible
+              <p className="pTextBlackSub">Almacenado y enviado por FULL</p>
+            </p>
+            <p className="pText">Cantidad de unidades: 10</p>
+            <button className="buttonShopping">Comprar</button>
+            <button className="buttonAdd">Agregar al carrito</button>
+            <p className="pBlue">Devolucion gratis.
+              <p className="pTextBlue">Tenes 30 dias desde que lo recibis.</p>
+            </p>
+            <p className="pBlue">Compra Protegida
+              <p className="pTextBlue">Recibi el producto que esperabas o te devolvemos tu dinero</p>
+            </p>
+            <p className="pBlue">Mercado Puntos.
+              <p className="pTextBlue">Sumas 1599 puntos.</p>
+            </p>
+          </div>
+          <div className="divInfoStore">
+            <h3>Informacion de la tienda</h3>
+          </div>
         </div>
       </div>
-      <h2>Descripcion del producto</h2>
-      <p>{data.descripcion}</p>
-    </DescripcionStyle>
+      <div>
+        <p>{data.description}</p>
+      </div>
+    </SelectDescription >
   )
 }
 
