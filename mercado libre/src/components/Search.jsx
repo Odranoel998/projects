@@ -44,7 +44,23 @@ export const Result = ({ prompt, value, setID, setEnter, enter }) => {
   const [data, setData] = useState([]);
   const navigate = useNavigate()
 
+  function formatNumberWithCommas(number) {
+    const numStr = number.toString();
+  
+    const parts = numStr.split('.');
+    let integerPart = parts[0];
+    const decimalPart = parts[1] || '';
+  
+    integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  
+    if (decimalPart) {
+      return `${integerPart},${decimalPart}`;
+    } else {
+      return integerPart;
+    }
+  }
 
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -54,7 +70,7 @@ export const Result = ({ prompt, value, setID, setEnter, enter }) => {
           id: result.id,
           title: result.title,
           thumbnail: result.thumbnail,
-          price: result.price,
+          price: formatNumberWithCommas(result.price),
           currency_id: result.currency_id,
           seller_address: {
             city: {
@@ -93,10 +109,12 @@ export const Result = ({ prompt, value, setID, setEnter, enter }) => {
                 </div>
                 <div>
                   <hr></hr>
-                  <h3>${item.price}</h3>
+                  <h1>$ {item.price}</h1>
                   <p value={item.id}>{item.title}</p>
                 </div>
-                <span className="ml-auto">{item.seller_address.city.name}</span>
+                <div className="divSpan">
+                  <span className="ml-auto">{item.seller_address.city.name}</span>
+                </div>
               </Tarjet>
             ))}
           </ul>
