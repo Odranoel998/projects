@@ -30,7 +30,7 @@ margin-left: 10%;
 margin-top: 3%;
 border-radius: 8px;
 width: 800px;
-min-height:: 500px; 
+min-height: 500px; 
 display: inline-block;
 box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 overflow: hidden; 
@@ -90,7 +90,7 @@ margin-left: 20px;
 margin-top: 20px;
 border-radius: 8px;
 width: 300px;
-height: 500px; 
+min-height: 400px; 
 display: inline-block;
 box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 overflow: hidden;
@@ -108,18 +108,35 @@ overflow: hidden;
     }
     div{
             margin-left: 5px;
-        h3{
+            //border: 2px solid blue;
+        h1{
+            font-family: "Segoe IU", sans-serif;
             margin-left: 20px;
+            font-size: 22px;
+            font-weight: lighter;
         }
         p{
-            font-weight: bold;
-            font-size: 10px;
-            padding: 20px;
+            font-size: 12px;
+            //padding: 20px;
+            margin-left: 20px;
+            font-family: "Segoe UI";
         }
     }
-    span{
-        margin-left: 25px;
-        font-size: 15px;
+    .divSpan{
+        //border: 2px solid black;
+        padding: 30px;
+        display:flex;
+        justify-content: flex-end;
+        flex-direction: column;
+        
+        
+        span{
+            font-weight: lighter;
+            margin-left: -10px;
+            font-size: 10px;
+            font-family: "Segoe UI";
+           // border: 2px solid red;
+        }
     }
 `;
 
