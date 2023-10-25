@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 
 
 
+
 // eslint-disable-next-line react/prop-types
 export const SearchrHead = ({ value, handleChange, setEnter }) => {
 
@@ -37,13 +38,13 @@ export const SearchrHead = ({ value, handleChange, setEnter }) => {
   )
 
 }
-//Componente de result ---------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
 // eslint-disable-next-line react/prop-types
 export const Result = ({ prompt, value, setID, setEnter, enter }) => {
   const [data, setData] = useState([]);
   const navigate = useNavigate()
-
+  //---------------------
   function formatNumberWithCommas(number) {
     const numStr = number.toString();
 
@@ -59,36 +60,46 @@ export const Result = ({ prompt, value, setID, setEnter, enter }) => {
       return integerPart;
     }
   }
-
-
+  const fetchProductData = async (productId) => {
+    try {
+      const response = await axios.get(`https://api.mercadolibre.com/items/${productId}`);
+      return {
+        id: response.data.id,
+        title: response.data.title,
+        thumbnail: response.data.pictures[0].url,
+        price: formatNumberWithCommas(response.data.price),
+        currency_id: response.data.currency_id,
+        warranty: response.data.warranty,
+        seller_address: {
+          city: {
+            name: response.data.seller_address.city.name,
+          },
+        },
+      };
+    } catch (error) {
+      console.error('Error al obtener datos del producto:', error);
+      return null;
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`https://api.mercadolibre.com/sites/MLA/search?q=${prompt}&limit=12`);
-        const producto = response.data.results.map((result) => ({
-          id: result.id,
-          title: result.title,
-          thumbnail: result.thumbnail,
-          price: formatNumberWithCommas(result.price),
-          currency_id: result.currency_id,
-          seller_address: {
-            city: {
-              name: result.seller_address.city.name
-            }
-          }
-        }));
-        setData(producto);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    //--------------------------------------------------------
-    if (prompt && enter == true) {
+    if (prompt && enter) {
+      const fetchData = async () => {
+        try {
+          const response = await axios.get(`https://api.mercadolibre.com/sites/MLA/search?q=${prompt}&limit=12`);
+          const products = await Promise.all(response.data.results.map((result) => fetchProductData(result.id)));
+          setData(products.filter((product) => product !== null));
+        } catch (error) {
+          console.error('Error al obtener datos de productos:', error);
+        }
+      };
+
       fetchData();
-      setEnter(false)
+      setEnter(false);
     }
-  }, [enter]);
+  }, [prompt, enter]);
+
+  //----------------------------
   const selectDescription = (e) => {
     e.preventDefault()
     const respuesta = e.currentTarget.getAttribute('value');
@@ -96,7 +107,7 @@ export const Result = ({ prompt, value, setID, setEnter, enter }) => {
     setID(value)
     navigate(`/search/:product/:${value}`)
   }
-  //--------------------------------------------------------
+  //------------------
   return (
     <ResultStyle >
       <section >
@@ -127,9 +138,11 @@ export const Result = ({ prompt, value, setID, setEnter, enter }) => {
 //--------------------------------------------------------------------------------------------
 
 // eslint-disable-next-line react/prop-types
-export const ResultDescription = ({ prompt, value }) => {
+export const ResultDescription = ({ prompt }) => {
   const [data, setData] = useState('');
-
+  const [imageUrls, setImageUrls] = useState([]);
+  const [valueImg,setValueImg]=useState('')
+  //---------------
   function formatNumberWithCommas(number) {
     const numStr = number.toString();
 
@@ -146,49 +159,65 @@ export const ResultDescription = ({ prompt, value }) => {
     }
   }
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`https://api.mercadolibre.com/sites/MLA/search?q=${value}&limit=12`);
-        const responseDescription = await axios.get(`https://api.mercadolibre.com/items/${prompt}/description`)
-        const fetchDescription = responseDescription.data.plain_text
-        const productos = response.data.results;
-        const producto = productos.find((result) => result.id === prompt);
-        if (producto) {
-          setData({
-            id: producto.id,
-            title: producto.title,
-            thumbnail: producto.thumbnail,
-            price: formatNumberWithCommas(producto.price),
-            redondeo:formatNumberWithCommas(((producto.price)/12).toFixed(2)),
-            descripcion: (fetchDescription),
-          });
-
-        } else {
-          alert("Producto no encontrado");
-        }
-      } catch (error) {
-        console.log(error);
+  const fetchProductData = async (productId) => {
+    try {
+      const response = await axios.get(`https://api.mercadolibre.com/items/${productId}`);
+      const responseDescription = await axios.get(`https://api.mercadolibre.com/items/${productId}/description`)
+      const fetchDescription = responseDescription.data.plain_text
+      const datos = {
+        id: response.data.id,
+        title: response.data.title,
+        thumbnail: response.data.pictures[0].url,
+        price: formatNumberWithCommas(response.data.price),
+        redondeo: formatNumberWithCommas(((response.data.price) / 12).toFixed(2)),
+        cantidad: response.data.initial_quantity,
+        descripcion: fetchDescription,
+        quantity: response.data.available_quantity,
+        sold_quantity: response.data.sold_quantity,
+        warranty: response.data.warranty,
       }
-    };
-    //--------------------------------------------------------
-
-    if (prompt) {
-      fetchData();
-      //console.log("llamado") 
+      const urls = response.data.pictures.map((picture) => picture.url);
+      setImageUrls(urls);
+      setData(datos);
+      setValueImg(datos.thumbnail)
+    } catch (error) {
+      console.error('Error al obtener datos del producto:', error);
+      return null;
     }
+  };
 
+  //---------------------------------------------------------------------------------------------------
+
+  useEffect(() => {
+    if (prompt) {
+      fetchProductData(prompt)
+ 
+      // console.log(imageUrls)
+      // console.log('Estos son lso datos', data.title)
+      // console.log('este es el promt', prompt)
+      // console.log('imagen principal', valueImg)
+    }
   }, [prompt]);
 
   return (
     <SelectDescription >
       <div className="divThree">
         <div className="divImg">
-          <img src={data.thumbnail} alt={data.title} />
+          <div className="divImgsLeft">
+            {imageUrls.map((imageUrl, index) =>(
+              <img 
+                key={index+1} 
+                src={imageUrl} 
+                alt={`Imagen ${index + 1}`}
+                //onClick={setValueImg(imageUrl)}
+               />
+            ))}
+          </div>
+          <img src={valueImg} alt={data.title} />
         </div>
 
         <div className="divInfo">
-          <p>Nuevo| +500 vendido</p>
+          <p>Nuevo| +{data.sold_quantity} vendido</p>
           <h2>{data.title}</h2>
           <p>Mas Vendido</p>
           <h3>$ {data.price} </h3>
@@ -204,7 +233,7 @@ export const ResultDescription = ({ prompt, value }) => {
             <p className="pTextBlack">Stock Disponible
               <p className="pTextBlackSub">Almacenado y enviado por FULL</p>
             </p>
-            <p className="pText">Cantidad de unidades: 10</p>
+            <p className="pText">Cantidad de unidades: {data.quantity}</p>
             <button className="buttonShopping">Comprar</button>
             <button className="buttonAdd">Agregar al carrito</button>
             <p className="pBlue">Devolucion gratis.
@@ -216,15 +245,46 @@ export const ResultDescription = ({ prompt, value }) => {
             <p className="pBlue">Mercado Puntos.
               <p className="pTextBlue">Sumas 1599 puntos.</p>
             </p>
+            <p className="pText">{data.warranty}</p>
           </div>
+
           <div className="divInfoStore">
             <h3>Informacion de la tienda</h3>
+            <h4>MercadoLider
+              <p>Es uno de los mejore del sitio!</p>
+            </h4>
+            <div className="divBoxesColors">
+              <p className="pbox"></p>
+              <p className="pbox1"></p>
+              <p className="pbox2"></p>
+              <p className="pbox3"></p>
+              <p className="pbox4"></p>
+            </div>
+            <div className="divShoppBottom">
+              <div>
+                <h2>+1000</h2>
+                <p>Ventas concretadas</p>
+              </div>
+              <div>
+                <h2>Logo</h2>
+                <p>Brinda buena atencion</p>
+              </div>
+              <div className="divEnd">
+                <h2>Logo</h2>
+                <p>Despacha sus productos a tiempo</p>
+              </div>
+            </div>
+
           </div>
+
         </div>
       </div>
-      <div>
-        <p>{data.description}</p>
+      <div className="divDescription">
+        <h2>Descripcion</h2>
+        <p className="pDescription">{data.descripcion}</p>
       </div>
+
+
     </SelectDescription >
   )
 }
