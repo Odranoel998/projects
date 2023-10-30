@@ -1,10 +1,9 @@
-import { Search, ResultStyle, Tarjet, SelectDescription } from "../views/HeadStyle"
+/* eslint-disable no-unused-vars */
+import { Search, ResultStyle, Tarjet, SelectDescription } from "../views/SearchStyle"
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect } from "react";
-
-
-
+import ReactImageMagnify from 'react-image-magnify';
 
 // eslint-disable-next-line react/prop-types
 export const SearchrHead = ({ value, handleChange, setEnter }) => {
@@ -12,8 +11,6 @@ export const SearchrHead = ({ value, handleChange, setEnter }) => {
   const placeholder = '  Buscar productos,marcas y mas ...';
   const navigate = useNavigate()
   //--------------------------------------------------------------------------------
-
-
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter" && value != "") {
@@ -25,7 +22,6 @@ export const SearchrHead = ({ value, handleChange, setEnter }) => {
 
   };
   //-------------------------------------------------------------------------
-
   return (
     <div>
       <Search type="search"
@@ -141,7 +137,9 @@ export const Result = ({ prompt, value, setID, setEnter, enter }) => {
 export const ResultDescription = ({ prompt }) => {
   const [data, setData] = useState('');
   const [imageUrls, setImageUrls] = useState([]);
-  const [valueImg,setValueImg]=useState('')
+  const [valueImg, setValueImg] = useState('')
+  const [zoom, setZoom] = useState(false);
+  //const [position, setPosition] = useState({ x: 0, y: 0 });
   //---------------
   function formatNumberWithCommas(number) {
     const numStr = number.toString();
@@ -177,6 +175,7 @@ export const ResultDescription = ({ prompt }) => {
         warranty: response.data.warranty,
       }
       const urls = response.data.pictures.map((picture) => picture.url);
+
       setImageUrls(urls);
       setData(datos);
       setValueImg(datos.thumbnail)
@@ -186,36 +185,84 @@ export const ResultDescription = ({ prompt }) => {
     }
   };
 
+  const handleMouseEnter = () => {
+    setZoom(true);
+  };
+
+  const handleMouseLeave = () => {
+    setZoom(false);
+  };
+  const handleMouseMove = (e) => {
+    //setPosition({ x: e.clientX, y: e.clientY });
+    if (zoom === true) {
+      const cursor = document.querySelector(".divCursor")
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+    }
+
+
+  }
+
   //---------------------------------------------------------------------------------------------------
 
   useEffect(() => {
     if (prompt) {
       fetchProductData(prompt)
- 
-      // console.log(imageUrls)
-      // console.log('Estos son lso datos', data.title)
-      // console.log('este es el promt', prompt)
-      // console.log('imagen principal', valueImg)
+
     }
   }, [prompt]);
 
   return (
     <SelectDescription >
+      {zoom ? (<div className="divImgZoom">
+        <img className="imgSelectZoom" src={valueImg} alt={data.title} />
+      </div>) : false
+      }
       <div className="divThree">
         <div className="divImg">
           <div className="divImgsLeft">
-            {imageUrls.map((imageUrl, index) =>(
-              <img 
-                key={index+1} 
-                src={imageUrl} 
-                alt={`Imagen ${index + 1}`}
-                //onClick={setValueImg(imageUrl)}
-               />
+            {imageUrls.slice(0, 6).map((imageUrl, index) => (
+              <button key={index + 1} onClick={() => setValueImg(imageUrl)}>
+                <img
+                  className="imgPicture"
+                  src={imageUrl}
+                  alt={`Imagen ${index + 1}`}
+                />
+              </button>
             ))}
           </div>
-          <img src={valueImg} alt={data.title} />
-        </div>
+          <div >
+            <ReactImageMagnify {...{
+              smallImage: {
+                alt: 'Wristwatch by Ted Baker London',
+                isFluidWidth: true,
+                src: valueImg
+              },
+              largeImage: {
+                src: valueImg,
+                width: 1129,
+                height: 750,
+                sizes: '(min-width: 4000px)  (min-width: 4200px) '
 
+              },
+
+              className:"ImageMagnify",
+              
+            }}  />
+          </div>
+          {/* <div className="areaImg"
+              onMouseMove={handleMouseMove}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            >
+              <div className="image-container">
+                <img className="imgSelect" src={valueImg} alt={data.title} />
+              </div>
+              {zoom?(<div className="divCursor"></div>)
+              : false
+              }
+            </div> */}
+        </div>
         <div className="divInfo">
           <p>Nuevo| +{data.sold_quantity} vendido</p>
           <h2>{data.title}</h2>
@@ -283,8 +330,6 @@ export const ResultDescription = ({ prompt }) => {
         <h2>Descripcion</h2>
         <p className="pDescription">{data.descripcion}</p>
       </div>
-
-
     </SelectDescription >
   )
 }

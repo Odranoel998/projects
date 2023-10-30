@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import {Ofertas,Historial,Supermercado,Moda,Vender,Ayuda,MisCompras,Carrito,} from "./components/Body"
-import {HeadCenter,HeadRight,ButtonStyle} from "./views/HeadStyle"
+import {Head,ButtonStyle} from "./views/HeadStyle"
 import{SearchrHead} from "./components/Search"
 import {CrearCuenta} from "./components/CreateAcount"
 import {Login} from "./components/Login";
@@ -65,26 +65,27 @@ const navigateToCarrito=() =>{
 //---------------------------------------------------------------------------------------
 return(
     <>
-        <div className="Head">
+        <Head className="Head">
             <SearchrHead value={searchValue}  handleChange={handleChange} setEnter={setEnter}/>
-            <br />
-            <HeadCenter>
-            <ButtonStyle onClick={navigateToHome}>Home</ButtonStyle>
-            <ButtonStyle onClick={navigateToOfertas}>Ofertas</ButtonStyle>
-            <ButtonStyle onClick={navigateToHistorial}>Historial</ButtonStyle>
-            <ButtonStyle onClick={navigateToSupermercado}>Supermercado</ButtonStyle>
-            <ButtonStyle onClick={navigateToModa}>Moda</ButtonStyle>
-            <ButtonStyle onClick={navigateToVender}>Vender</ButtonStyle>
-            <ButtonStyle onClick={navigateToAyuda}>Ayuda</ButtonStyle>
-            </HeadCenter>
-            <HeadRight>
-            <ButtonStyle onClick={navigateToCrearCuenta}>Crear Cuenta</ButtonStyle>
-            <ButtonStyle onClick={navigateToIngresar}>Ingresar</ButtonStyle>
-            <ButtonStyle onClick={navigateToMisCompras}>Mis Compras</ButtonStyle>
-            <ButtonStyle onClick={navigateToCarrito}>Carrito</ButtonStyle>
-            </HeadRight>
+                <div className="Buttons">
+                    <div className="HeadCenter"> 
+                    <ButtonStyle onClick={navigateToHome}>Home</ButtonStyle>
+                    <ButtonStyle onClick={navigateToOfertas}>Ofertas</ButtonStyle>
+                    <ButtonStyle onClick={navigateToHistorial}>Historial</ButtonStyle>
+                    <ButtonStyle onClick={navigateToSupermercado}>Supermercado</ButtonStyle>
+                    <ButtonStyle onClick={navigateToModa}>Moda</ButtonStyle>
+                    <ButtonStyle onClick={navigateToVender}>Vender</ButtonStyle>
+                    <ButtonStyle onClick={navigateToAyuda}>Ayuda</ButtonStyle>
+                    </div>
+                    <div className="Head-Rigth">
+                    <ButtonStyle onClick={navigateToCrearCuenta}>Crear Cuenta</ButtonStyle>
+                    <ButtonStyle onClick={navigateToIngresar}>Ingresar</ButtonStyle>
+                    <ButtonStyle onClick={navigateToMisCompras}>Mis Compras</ButtonStyle>
+                    <ButtonStyle onClick={navigateToCarrito}>Carrito</ButtonStyle>
+                    </div>
+                </div>
 
-        </div>
+        </Head>
             <Routes >
                 <Route path="/search/:product" element={<Result  enter={enter} setEnter={setEnter} prompt={searchValue} value={idProduct} setID={setID} />} />
                 <Route path="/search/:product/:id" element={<ResultDescription prompt={idProduct} value={searchValue} />}/>
