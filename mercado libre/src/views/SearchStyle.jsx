@@ -147,7 +147,7 @@ flex-direction: column;
                 
             }
             .ImageMagnify {
-                border: 1px solid black;
+                //border: 1px solid black;
                 margin: 20px;
                 margin-top: 50px;
                 width: 100px;

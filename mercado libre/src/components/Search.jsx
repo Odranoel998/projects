@@ -241,7 +241,7 @@ export const ResultDescription = ({ prompt }) => {
               largeImage: {
                 src: valueImg,
                 width: 1129,
-                height: 750,
+                height: 2050,
                 sizes: '(min-width: 4000px)  (min-width: 4200px) '
 
               },
